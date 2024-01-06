@@ -12,7 +12,7 @@ from sqlalchemy.exc import (
 from werkzeug.routing import BuildError
 
 
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 
 from app.auth import login_manager
 from app.database import db
@@ -47,6 +47,7 @@ def login():
     return render_template(
         "auth/auth.html",
         form=form,
+        btn_action="Login",
     )
 
 
@@ -96,10 +97,12 @@ def register():
     return render_template(
         "auth/auth.html",
         form=form,
+        btn_action="Register",
     )
 
 
 @bp.route("/logout", strict_slashes=False)
+@login_required
 def logout():
     logout_user()
     return redirect(url_for("index.index"))
