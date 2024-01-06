@@ -42,7 +42,7 @@ def login():
                 flash("Invalid username or password!", "danger")
         except Exception as e:
             LOGGER.error(e)
-            flash("An unexpected error occurred", "danger")
+            flash("An unexpected error has occurred...", "danger")
 
     return render_template(
         "auth/auth.html",
