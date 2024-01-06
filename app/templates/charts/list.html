@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Formula 1 Charts - Login{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/charts/list.css') }}">
+</head>
+<body>
+
+<h1>Image Gallery</h1>
+
+<div class="image-container">
+    <!-- Replace the URLs with the actual URLs of your images -->
+    <div class="image-item">
+        <img src={{ url_for('static', filename='img1.png') }} alt="Image 1">
+    </div>
+    <div class="image-item">
+        <img src={{ url_for('static', filename='img2.jpg') }} alt="Image 2">
+    </div>
+    <div class="image-item">
+        <img src={{ url_for('static', filename='img3.png') }} alt="Image 3">
+    </div>
+    <!-- Add more image items as needed -->
+</div>
+
+</body>
+{% endblock %}
