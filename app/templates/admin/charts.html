@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Formula 1 Charts - Charts{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/admin/charts.css') }}">
+</head>
+<body>
+
+<div class="content-container">
+    <table class="chart-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Created at</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for chart in charts %}
+                <tr class="chart-item">
+                    <td><a href="{{ url_for('charts.chart_details', chart_id=chart.id) }}" class="button-link">{{ chart.title }}</a></td>
+                    <td>{{ chart.created_at }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+{% endblock %}
