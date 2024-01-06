@@ -14,24 +14,14 @@
 
 <div class="content-container">
     <div class="image-container">
-        <!-- Replace the URLs with the actual URLs of your images -->
-        <div class="image-item">
-            <img src={{ url_for('static', filename='img1.png') }} alt="Image 1">
-            <figcaption>Title 1</figcaption>
-        </div>
-        <div class="image-item">
-            <img src={{ url_for('static', filename='img2.jpg') }} alt="Image 2">
-            <figcaption>Title 2</figcaption>
-        </div>
-        <div class="image-item">
-            <img src={{ url_for('static', filename='img3.png') }} alt="Image 3">
-            <figcaption>Title 3</figcaption>
-        </div>
-        <div class="image-item">
-            <img src={{ url_for('static', filename='img4.jpg') }} alt="Image 4">
-            <figcaption>Title 4</figcaption>
-        </div>
-        <!-- Add more image items as needed -->
+        {% for chart in charts %}
+        <a href="{{ url_for('charts.chart_details', chart_id=chart.id) }}">
+            <div class="image-item">
+                <img src="{{ url_for('static', filename=chart.filename) }}" alt="{{ chart.title }}">
+                <figcaption>{{ chart.title }}</figcaption>
+            </div>
+        </a>
+        {% endfor %}
     </div>
 </div>
 
