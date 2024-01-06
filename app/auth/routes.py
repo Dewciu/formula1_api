@@ -64,28 +64,27 @@ def register():
 
             db.session.add(newuser)
             db.session.commit()
-            flash("Account Succesfully created", "success")
+            flash("Account succesfully created!", "success")
             return redirect(url_for("auth.login"))
 
         except InvalidRequestError:
             db.session.rollback()
             flash("Something went wrong!", "danger")
-        except IntegrityError as e:
+        except IntegrityError:
             db.session.rollback()
-            print(e)
             flash("User already exists!.", "warning")
-        except DataError as d:
+        except DataError:
             db.session.rollback()
-            flash(f"Invalid Entry {d}", "warning")
+            flash("Invalid Entry", "warning")
         except InterfaceError:
             db.session.rollback()
             flash("Error connecting to the database", "danger")
         except DatabaseError:
             db.session.rollback()
             flash("Error connecting to the database", "danger")
-        except BuildError as e:
+        except BuildError:
             db.session.rollback()
-            flash(f"An error occured ! {e}", "danger")
+            flash("An error occured!", "danger")
     return render_template(
         "auth/auth.html",
         form=form,
