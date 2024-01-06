@@ -1,6 +1,6 @@
 from app.database import db
+from app.auth import bcrypt
 from datetime import datetime
-from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin
 
 
@@ -16,13 +16,15 @@ class User(UserMixin, db.Model):
     def __init__(self, username: str, email: str, password: str) -> None:
         self.username = username
         self.email = email
-        self.password_hash = password
+        self.set_password(password)
 
     def set_password(self, password: str) -> None:
-        self.password_hash = generate_password_hash(password, salt_length=30)
+        self.password_hash = str(
+            bcrypt.generate_password_hash(password).decode("utf-8")
+        )
 
     def check_password(self, password: str) -> bool:
-        return check_password_hash(self.password_hash, password)
+        return bcrypt.check_password_hash(self.password_hash.encode("utf-8"), password)
 
     def __repr__(self) -> str:
         return f"<User {self.username}>"

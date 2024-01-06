@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask, session
 from config import get_config
 from app.routes import make_routes
 from app.auth import login_manager, bcrypt
 from app.database import db
 
 
-def create_app() -> Flask:
+def get_app() -> Flask:
     APP = Flask(__name__)
     APP.config.from_object(get_config())
     bcrypt.init_app(APP)

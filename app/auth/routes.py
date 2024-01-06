@@ -12,13 +12,9 @@ from sqlalchemy.exc import (
 from werkzeug.routing import BuildError
 
 
-from flask_bcrypt import check_password_hash
+from flask_login import login_user, logout_user
 
-from flask_login import (
-    login_user,
-)
-
-from app.auth import bcrypt
+from app.auth import login_manager
 from app.database import db
 from app.auth.models import User
 
@@ -28,17 +24,22 @@ LOGGER = logging.getLogger(__name__)
 bp = Blueprint("auth", __name__)
 
 
+@login_manager.user_loader
+def load_user(id: int) -> User:
+    return User.query.get(int(id))
+
+
 @bp.route("/login", methods=("GET", "POST"), strict_slashes=False)
 def login():
     form = LoginForm()
     if form.validate_on_submit():
         try:
-            user = User.query.filter_by(email=form.email.data).first()
-            if check_password_hash(user.password, form.password.data):
+            user: User = User.query.filter_by(username=form.username.data).first()
+            if user.check_password(form.password.data):
                 login_user(user)
-                return redirect(url_for("index"))
+                return redirect(url_for("index.index"))
             else:
-                flash("Invalid Username or password!", "danger")
+                flash("Invalid username or password!", "danger")
         except Exception as e:
             flash(e, "danger")
 
@@ -59,7 +60,7 @@ def register():
             newuser = User(
                 username=username,
                 email=email,
-                password=str(bcrypt.generate_password_hash(password)),
+                password=password,
             )
 
             db.session.add(newuser)
@@ -89,3 +90,9 @@ def register():
         "auth/auth.html",
         form=form,
     )
+
+
+@bp.route("/logout", strict_slashes=False)
+def logout():
+    logout_user()
+    return redirect(url_for("index.index"))
