@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fddecaf4;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+.bg-custom {
+    background-color: #f7b386f4;
+}
+
+.navbar-brand {
+    font-size: 1.5;
+    font-weight: bold;
+    color: black !important;
+}
+
+.nav-link {
+    font-weight: bold;
+    color: black !important;
+}
+
+h1 {
+    color: #333;
+}
+
+p {
+    color: #666;
+}

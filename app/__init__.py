@@ -8,8 +8,8 @@ from app.database import db
 def create_app() -> Flask:
     APP = Flask(__name__)
     APP.config.from_object(get_config())
+    bcrypt.init_app(APP)
     db.init_app(APP)
     login_manager.init_app(APP)
-    bcrypt.init_app(APP)
     make_routes(APP)
     return APP
