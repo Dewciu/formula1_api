@@ -41,7 +41,8 @@ def login():
             else:
                 flash("Invalid username or password!", "danger")
         except Exception as e:
-            flash(e, "danger")
+            LOGGER.error(e)
+            flash("An unexpected error occurred", "danger")
 
     return render_template(
         "auth/auth.html",
@@ -68,23 +69,29 @@ def register():
             flash("Account succesfully created!", "success")
             return redirect(url_for("auth.login"))
 
-        except InvalidRequestError:
+        except InvalidRequestError as e:
             db.session.rollback()
+            LOGGER.error(e)
             flash("Something went wrong!", "danger")
-        except IntegrityError:
+        except IntegrityError as e:
             db.session.rollback()
-            flash("User already exists!.", "warning")
-        except DataError:
+            LOGGER.warning(e)
+            flash("User already exists!", "warning")
+        except DataError as e:
             db.session.rollback()
+            LOGGER.warning(e)
             flash("Invalid Entry", "warning")
-        except InterfaceError:
+        except InterfaceError as e:
             db.session.rollback()
+            LOGGER.error(e)
             flash("Error connecting to the database", "danger")
-        except DatabaseError:
+        except DatabaseError as e:
             db.session.rollback()
+            LOGGER.error(e)
             flash("Error connecting to the database", "danger")
-        except BuildError:
+        except BuildError as e:
             db.session.rollback()
+            LOGGER.error(e)
             flash("An error occured!", "danger")
     return render_template(
         "auth/auth.html",
