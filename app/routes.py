@@ -12,5 +12,5 @@ def make_routes(app: Flask) -> None:
 
 
 @bp.route("/")
-def index():
+def index() -> str:
     return render_template("index.html")

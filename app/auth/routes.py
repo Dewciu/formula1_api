@@ -25,12 +25,12 @@ bp = Blueprint("auth", __name__)
 
 
 @login_manager.user_loader
-def load_user(id: int) -> User:
+def load_user(id: int) -> str:
     return User.query.get(int(id))
 
 
 @bp.route("/login", methods=("GET", "POST"), strict_slashes=False)
-def login():
+def login() -> str:
     form = LoginForm()
     if form.validate_on_submit():
         try:
@@ -52,7 +52,7 @@ def login():
 
 
 @bp.route("/register", methods=("GET", "POST"), strict_slashes=False)
-def register():
+def register() -> str:
     form = RegisterForm()
     if form.validate_on_submit():
         try:
@@ -103,6 +103,6 @@ def register():
 
 @bp.route("/logout", strict_slashes=False)
 @login_required
-def logout():
+def logout() -> str:
     logout_user()
     return redirect(url_for("index.index"))

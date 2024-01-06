@@ -8,7 +8,7 @@ bp = Blueprint("charts", __name__)
 
 @bp.route("/")
 @login_required
-def index():
+def index() -> str:
     charts = Chart.query.all()
     return render_template(
         "charts/list.html",
@@ -18,7 +18,7 @@ def index():
 
 @bp.route("/chart/<int:chart_id>")
 @login_required
-def chart_details(chart_id):
+def chart_details(chart_id: int) -> str:
     chart = Chart.query.get(chart_id)
     if not chart:
         abort(404)
