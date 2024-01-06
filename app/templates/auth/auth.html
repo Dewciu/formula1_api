@@ -24,44 +24,49 @@
         {% endfor %}
         {% endif %}
         {% endwith %}
-        <div class="form-group">
-            {{ form.username(class_="form-control",placeholder="Username")}}
-        </div>
 
         {% for error in form.username.errors %}
         {{ error }}
         {% endfor %}
+        
+        <div class="form-group">
+            {{ form.username(class_="form-control",placeholder="Username")}}
+        </div>
 
         {% if request.path == '/auth/register' %}
+        
+        {% for error in form.email.errors %}
+        {{ error }}
+        {% endfor%}
 
         <div class="form-group">
             {{form.email(class_="form-control",placeholder="Email")}}
         </div>
 
-        {% for error in form.email.errors %}
-        {{ error }}
-        {% endfor%}
+
 
         {% endif%}
-
-        <div class="form-group">
-            {{ form.password(class_="form-control",placeholder="Password")}}
-        </div>
 
         {% for error in form.password.errors %}
         {{ error }}
         {% endfor%}
 
-        {% if request.path == '/auth/register' %}
         <div class="form-group">
-            {{form.password_confirm(class_="form-control",placeholder="Confirm Password")}}
+            {{ form.password(class_="form-control",placeholder="Password")}}
         </div>
+
+        {% if request.path == '/auth/register' %}
 
         {% for error in form.password_confirm.errors %}
         {{ error }}
         {% endfor%}
 
+        <div class="form-group">
+            {{form.password_confirm(class_="form-control",placeholder="Confirm Password")}}
+        </div>
+
         {% endif%}
+
         <button type="submit" class="btn btn-block btn-primary mb-3">
             {{ btn_action }}
         </button>
