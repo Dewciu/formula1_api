@@ -1,4 +1,4 @@
-from app.database import db
+from formula1_app.database import db
 
 
 class Chart(db.Model):

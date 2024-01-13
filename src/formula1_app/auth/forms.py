@@ -11,7 +11,7 @@ from wtforms.validators import (
     EqualTo,
 )
 from flask_wtf import FlaskForm
-from app.auth.models import User
+from formula1_app.auth.models import User
 
 
 class LoginForm(FlaskForm):

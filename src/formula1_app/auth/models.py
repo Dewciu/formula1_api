@@ -1,5 +1,5 @@
-from app.database import db
-from app.auth import bcrypt
+from formula1_app.database import db
+from formula1_app.auth import bcrypt
 from datetime import datetime
 from flask_login import UserMixin
 

@@ -1,18 +1,23 @@
-[build-system]
-requires = ["setuptools", "wheel"]
 
-[tool.setuptools]
-name = "your-package-name"
+[tool.poetry]
+name = "formula1_app"
 version = "0.1.0"
-description = "Your package description"
-author = "Kacper Król"
-author_email = "your.email@example.com"
+description = "App for restoring and analyzing data from F1 world."
+authors = ["Kacper Król <kacperkrol@protonmail.com>"]
 
-[options]
-python_requires = ">=3.10"
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^3.0.0"
+flask_wtf = "^1.2.1"
+flask_login = "^0.6.3"
+flask_sqlalchemy = "^3.1.1"
+flask_bcrypt = "^1.0.1"
+psycopg2 = "^2.9.9"
+# formula1_analytics = {path = "/Users/dewciu/Development/studies/object_languages/project/formula1_analytics", develop = true }
 
-[options.extras_require]
-test = ["pytest"]
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
 extend-exclude = ["__init__.py"]

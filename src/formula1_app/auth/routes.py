@@ -1,6 +1,6 @@
 import logging
 from flask import Blueprint, render_template, redirect, flash, url_for
-from app.auth.forms import LoginForm, RegisterForm
+from formula1_app.auth.forms import LoginForm, RegisterForm
 
 from sqlalchemy.exc import (
     IntegrityError,
@@ -14,9 +14,9 @@ from werkzeug.routing import BuildError
 
 from flask_login import login_user, logout_user, login_required
 
-from app.auth import login_manager
-from app.database import db
-from app.auth.models import User
+from formula1_app.auth import login_manager
+from formula1_app.database import db
+from formula1_app.auth.models import User
 
 LOGGER = logging.getLogger(__name__)
 

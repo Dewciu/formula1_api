@@ -1,8 +1,8 @@
 from flask import Flask, session
 from config import get_config
-from app.routes import make_routes
-from app.auth import login_manager, bcrypt
-from app.database import db
+from formula1_app.routes import make_routes
+from formula1_app.auth import login_manager, bcrypt
+from formula1_app.database import db
 
 
 def get_app() -> Flask:

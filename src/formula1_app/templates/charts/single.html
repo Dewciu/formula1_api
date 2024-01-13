@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Formula 1 Charts - {{chart.title}}{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/charts/single.css') }}">
+    <title>Image Gallery</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+<div class="content-container">
+    <div class="chart-title">
+        <h1>{{ chart.title }}</h1>
+    </div>
+    <div class="image-container">
+        <div class="image-item">
+            <!-- <img src={{ url_for('static', filename=chart.filename) }}> -->
+            <img src="data:image/png;base64,{{img_data}}" alt="plot">
+        </div>
+    </div>
+    <div class="chart-description">
+        <p>{{ chart.description }}</p>
+    </div>
+    <div>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <label for="{{ form.season.id }}">Season:</label>
+            {{ form.season(placeholder="Season") }}
+            {% if form.season.errors %}
+                <p class="error">{{ ', '.join(form.season.errors) }}</p>
+            {% endif %}
+            <label>Drivers:</label>
+            <ul id="drivers-list">
+                {{form.drivers()}}
+            </ul>
+            <!-- {{form.drivers}} -->
+            <button type="button" id="add-driver-btn">Add Driver</button>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+    var maxDrivers = 25; // Set your maximum allowed drivers
+
+    // Function to add a new driver input row
+    function addDriverInput() {
+        var driversList = $('#drivers-list');
+        var driverCount = driversList.children().length;
+
+        if (driverCount < maxDrivers) {
+            // Clone the first driver entry and update the IDs
+            var newDriverInput = $('#drivers-list li:first-child').clone();
+            var newDriverCount = driverCount;
+
+            newDriverInput.find('[id*="forename"]').attr('id', 'drivers-' + newDriverCount + '-forename');
+            newDriverInput.find('[id*="surname"]').attr('id', 'drivers-' + newDriverCount + '-surname');
+            newDriverInput.find('[name*="forename"]').attr('name', 'drivers-' + newDriverCount + '-forename');
+            newDriverInput.find('[name*="surname"]').attr('name', 'drivers-' + newDriverCount + '-surname');
+            
+            // Clear input values in the new driver entry
+            newDriverInput.find('input').val('');
+            
+            // Add a "Remove" button to the new driver entry
+            newDriverInput.append('<button type="button" class="remove-driver-btn">Remove</button>');
+            
+            driversList.append(newDriverInput);
+        } else {
+            alert('You have reached the maximum allowed drivers.');
+        }
+    }
+
+    // Event listener for the "Add Driver" button
+    $('#add-driver-btn').click(function () {
+        addDriverInput();
+    });
+
+    // Event listener for the "Remove" button
+    $('#drivers-list').on('click', '.remove-driver-btn', function () {
+        $(this).closest('li').remove();
+    });
+});
+</script>
+</body>
+{% endblock %}

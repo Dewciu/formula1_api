@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, render_template
-from app.auth.routes import bp as auth_bp
-from app.charts.routes import bp as charts_bp
-from app.admin.routes import bp as admin_bp
+from formula1_app.auth.routes import bp as auth_bp
+from formula1_app.charts.routes import bp as charts_bp
+from formula1_app.admin.routes import bp as admin_bp
 
 bp = Blueprint("index", __name__)
 
