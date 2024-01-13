@@ -31,6 +31,10 @@
         
     </div>
     {% endif %}
+    {% if driver_not_found_error %}
+    <div class="error-container">
+        <p>{{ driver_not_found_error }}</p>
+    {% endif %}
     <div class="chart-description">
         <p>{{ chart.description }}</p>
     </div>

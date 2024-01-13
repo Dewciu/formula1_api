@@ -3,8 +3,10 @@ from flask_login import login_required
 from formula1_app.charts.models import Chart
 from flask import abort
 from formula1_analytics.drivers.drivers_plots import DriversPlots
+from formula1_analytics.drivers.exceptions import DriverNotFoundException
 from formula1_app.charts.forms import DriversPerformanceForm, DriverForm
 from formula1_app.charts.helpers import GetDriversFullnames
+
 import base64
 
 bp = Blueprint("charts", __name__)
@@ -32,9 +34,20 @@ def chart_details(chart_id: int) -> str:
     if form.validate_on_submit():
         if form.data["drivers"]:
             driver_fullnames = GetDriversFullnames(form.data["drivers"]).get()
-        plot = plots.plot_drivers_season_performance(
-            int(form.season.data), driver_fullnames
-        )
+
+        try:
+            plot = plots.plot_drivers_season_performance(
+                int(form.season.data), driver_fullnames
+            )
+        except DriverNotFoundException as e:
+            return render_template(
+                "charts/single.html",
+                chart=chart,
+                form=form,
+                img_data=base64.b64encode(plot).decode("utf-8"),
+                _template=template_form,
+                driver_not_found_error=e,
+            )
     if not chart:
         abort(404)
 
