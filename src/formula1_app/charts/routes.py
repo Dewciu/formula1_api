@@ -4,6 +4,7 @@ from formula1_app.charts.models import Chart
 from flask import abort
 from formula1_analytics.drivers.drivers_plots import DriversPlots
 from formula1_app.charts.forms import DriversPerformanceForm, DriverForm
+from formula1_app.charts.helpers import GetDriversFullnames
 import base64
 
 bp = Blueprint("charts", __name__)
@@ -29,9 +30,11 @@ def chart_details(chart_id: int) -> str:
     plot = b""
     print(request.data)
     if form.validate_on_submit():
-        # print(form.drivers.data)
-        # plot = plots.plot_drivers_season_performance(int(form.season.data))
-        print(form.data)
+        if form.data["drivers"]:
+            driver_fullnames = GetDriversFullnames(form.data["drivers"]).get()
+        plot = plots.plot_drivers_season_performance(
+            int(form.season.data), driver_fullnames
+        )
     if not chart:
         abort(404)
 

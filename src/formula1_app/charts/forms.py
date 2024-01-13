@@ -18,14 +18,12 @@ class DriverForm(FlaskForm):
 
     forename = StringField(
         validators=[
-            Length(min=2, max=50),
-            InputRequired(),
+            Length(min=0, max=50),
         ]
     )
     surname = StringField(
         validators=[
-            Length(min=2, max=50),
-            InputRequired(),
+            Length(min=0, max=50),
         ]
     )
 

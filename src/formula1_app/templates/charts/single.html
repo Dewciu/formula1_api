@@ -22,12 +22,15 @@
     <div class="chart-title">
         <h1>{{ chart.title }}</h1>
     </div>
+    {% if img_data %}
     <div class="image-container">
         <div class="image-item">
             <!-- <img src={{ url_for('static', filename=chart.filename) }}> -->
             <img src="data:image/png;base64,{{img_data}}" alt="plot">
         </div>
+        
     </div>
+    {% endif %}
     <div class="chart-description">
         <p>{{ chart.description }}</p>
     </div>
