@@ -1,0 +1,15 @@
+{%- macro render_drivers(subform, index) %}
+    <div id="drivers-{{ index }}-form" class="{% if index != '_' %}subform{% else %}is-hidden{% endif %}" data-index="{{ index }}">
+        <div>
+            {{ subform.forename.label }}
+            {{ subform.forename }}
+        </div>
+        <div>
+            {{ subform.surname.label }}
+            {{ subform.surname}}
+        </div>
+
+        <a class="remove" href="#">Remove</a>
+        <hr/>
+    </div>
+{%- endmacro %}

@@ -13,6 +13,9 @@ from flask_wtf import FlaskForm
 
 
 class DriverForm(FlaskForm):
+    class Meta:
+        csrf = False
+
     forename = StringField(
         validators=[
             Length(min=2, max=50),

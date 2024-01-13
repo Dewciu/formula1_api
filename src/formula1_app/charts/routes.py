@@ -3,7 +3,7 @@ from flask_login import login_required
 from formula1_app.charts.models import Chart
 from flask import abort
 from formula1_analytics.drivers.drivers_plots import DriversPlots
-from formula1_app.charts.forms import DriversPerformanceForm
+from formula1_app.charts.forms import DriversPerformanceForm, DriverForm
 import base64
 
 bp = Blueprint("charts", __name__)
@@ -23,6 +23,7 @@ def index() -> str:
 @login_required
 def chart_details(chart_id: int) -> str:
     form = DriversPerformanceForm()
+    template_form = DriverForm(prefix="drivers-_-")
     plots = DriversPlots()
     chart = Chart.query.get(chart_id)
     plot = b""
@@ -39,4 +40,5 @@ def chart_details(chart_id: int) -> str:
         chart=chart,
         form=form,
         img_data=base64.b64encode(plot).decode("utf-8"),
+        _template=template_form,
     )
