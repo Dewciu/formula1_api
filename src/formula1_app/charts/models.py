@@ -6,6 +6,7 @@ class Chart(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), unique=True, nullable=False)
+    identifier = db.Column(db.String(50), unique=True, nullable=False)
     filename = db.Column(db.String(50), unique=True, nullable=False)
     description = db.Column(db.String(10000), nullable=False)
     created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())

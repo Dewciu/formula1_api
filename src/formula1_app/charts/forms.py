@@ -36,3 +36,12 @@ class DriversPerformanceForm(FlaskForm):
         ]
     )
     drivers = FieldList(FormField(DriverForm), min_entries=1, max_entries=25)
+
+
+class DriversMostWinsForm(FlaskForm):
+    count = IntegerField(
+        validators=[
+            InputRequired(),
+            NumberRange(min=1, max=25),
+        ]
+    )

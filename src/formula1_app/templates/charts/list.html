@@ -12,18 +12,19 @@
 </head>
 <body>
 
+{% for chart in charts %}
 <div class="content-container">
     <div class="image-container">
-        {% for chart in charts %}
         <a href="{{ url_for('charts.chart_details', chart_id=chart.id) }}">
             <div class="image-item">
                 <img src="{{ url_for('static', filename=chart.filename) }}" alt="{{ chart.title }}">
                 <figcaption>{{ chart.title }}</figcaption>
             </div>
         </a>
-        {% endfor %}
     </div>
 </div>
+{% endfor %}
+
 
 </body>
 {% endblock %}

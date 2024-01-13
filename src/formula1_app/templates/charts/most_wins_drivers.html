@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% import "charts/drivers.html" as drivers %}
+{% block title %}Formula 1 Charts - {{chart.title}}{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/charts/single.css') }}">
+    <title>Image Gallery</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        .is-hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="content-container">
+    <div class="chart-title">
+        <h1>{{ chart.title }}</h1>
+    </div>
+    {% if img_data %}
+    <div class="image-container">
+        <div class="image-item">
+            <!-- <img src={{ url_for('static', filename=chart.filename) }}> -->
+            <img src="data:image/png;base64,{{img_data}}" alt="plot">
+        </div>
+        
+    </div>
+    {% endif %}
+    <div class="chart-description">
+        <p>{{ chart.description }}</p>
+    </div>
+    <div>
+        <form id="driver-form" action="" method="POST" role="form">
+            {{ form.hidden_tag() }}
+            <label for="{{ form.count.id }}">Count:</label>
+            {{ form.count(placeholder="Count") }}
+            {% if form.count.errors %}
+            <p class="error">{{ ', '.join(form.count.errors) }}</p>
+            {% endif %}
+            <button type="submit">Send</button>
+        </form>
+        {% if form.errors %}
+            {{ form.errors }}
+        {% endif %}
+    </div>
+</div>
+</body>
+{% endblock %}

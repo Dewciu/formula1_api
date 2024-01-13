@@ -1,10 +1,14 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, redirect, url_for, render_template
 from flask_login import login_required
 from formula1_app.charts.models import Chart
 from flask import abort
 from formula1_analytics.drivers.drivers_plots import DriversPlots
 from formula1_analytics.drivers.exceptions import DriverNotFoundException
-from formula1_app.charts.forms import DriversPerformanceForm, DriverForm
+from formula1_app.charts.forms import (
+    DriversPerformanceForm,
+    DriverForm,
+    DriversMostWinsForm,
+)
 from formula1_app.charts.helpers import GetDriversFullnames
 
 import base64
@@ -25,23 +29,28 @@ def index() -> str:
 @bp.route("/chart/<int:chart_id>", methods=["GET", "POST"])
 @login_required
 def chart_details(chart_id: int) -> str:
+    chart: Chart = Chart.query.get(chart_id)
+    return redirect(url_for(f"charts.{chart.identifier}"))
+
+
+@bp.route("/chart/most_successful_drivers", methods=["GET", "POST"])
+@login_required
+def most_successful_drivers():
+    chart: Chart = Chart.query.filter_by(identifier="most_successful_drivers").first()
     form = DriversPerformanceForm()
     template_form = DriverForm(prefix="drivers-_-")
-    plots = DriversPlots()
-    chart = Chart.query.get(chart_id)
     plot = b""
-    print(request.data)
     if form.validate_on_submit():
         if form.data["drivers"]:
             driver_fullnames = GetDriversFullnames(form.data["drivers"]).get()
 
         try:
-            plot = plots.plot_drivers_season_performance(
+            plot = DriversPlots.plot_drivers_season_performance(
                 int(form.season.data), driver_fullnames
             )
         except DriverNotFoundException as e:
             return render_template(
-                "charts/single.html",
+                "charts/most_successful_drivers.html",
                 chart=chart,
                 form=form,
                 img_data=base64.b64encode(plot).decode("utf-8"),
@@ -52,9 +61,26 @@ def chart_details(chart_id: int) -> str:
         abort(404)
 
     return render_template(
-        "charts/single.html",
+        "charts/most_successful_drivers.html",
         chart=chart,
         form=form,
         img_data=base64.b64encode(plot).decode("utf-8"),
         _template=template_form,
+    )
+
+
+@bp.route("/chart/most_wins_drivers", methods=["GET", "POST"])
+@login_required
+def most_wins_drivers():
+    chart: Chart = Chart.query.filter_by(identifier="most_wins_drivers").first()
+    form = DriversMostWinsForm()
+    plot = b""
+    if form.validate_on_submit():
+        plot = DriversPlots.get_plot_drivers_most_wins(int(form.count.data))
+
+    return render_template(
+        "charts/most_wins_drivers.html",
+        chart=chart,
+        form=form,
+        img_data=base64.b64encode(plot).decode("utf-8"),
     )
