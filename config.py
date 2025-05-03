@@ -17,7 +17,7 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = (
-        "postgresql://dewciu:leclerc0109@localhost:5432/formula1_db"
+        "postgresql://dewciu:leclerc0109@localhost:5433/formula1_db"
     )
 
     DEBUG = True
@@ -26,7 +26,7 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = (
-        "postgresql://dewciu:leclerc0109@localhost:5432/formula1_db"
+        "postgresql://dewciu:leclerc0109@localhost:5433/formula1_db"
     )
     TESTING = True
 

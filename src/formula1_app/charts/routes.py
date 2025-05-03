@@ -84,3 +84,18 @@ def most_wins_drivers():
         form=form,
         img_data=base64.b64encode(plot).decode("utf-8"),
     )
+
+@bp.route("/chart/driver_performance_weather", methods=["GET", "POST"])
+@login_required
+def driver_performance_weather():
+    chart: Chart = Chart.query.filter_by(identifier="driver_performance_weather").first()
+    form = DriversMostWinsForm()
+    plot = b""
+    if form.validate_on_submit():
+        plot = DriversPlots.get_plot_drivers_most_wins(int(form.count.data))
+    return render_template(
+        "charts/driver_performance_weather.html",
+        chart=chart,
+        form=form,
+        img_data=base64.b64encode(plot).decode("utf-8"),
+    )
