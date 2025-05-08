@@ -3,6 +3,8 @@ from wtforms import (
     StringField,
     FormField,
     FieldList,
+    SelectField,
+    SelectMultipleField,
 )
 from wtforms.validators import (
     InputRequired,
@@ -44,4 +46,30 @@ class DriversMostWinsForm(FlaskForm):
             InputRequired(),
             NumberRange(min=1, max=25),
         ]
+    )
+
+
+class DriverWeatherPerfForm(FlaskForm):
+    season = IntegerField(
+        validators=[
+            InputRequired(),
+            NumberRange(min=1996, max=2023),
+        ]
+    )
+    drivers = SelectMultipleField(
+        'Drivers',
+        choices=[],  # Will be populated dynamically
+        validators=[InputRequired()]
+    )
+    weather_type = SelectField(
+        'Weather Type',
+        choices=[
+            ('rainfall', 'Rainfall'),
+            ('track_temp', 'Track Temperature'),
+            ('air_temp', 'Air Temperature'),
+            ('humidity', 'Humidity'),
+            ('pressure', 'Pressure'),
+            ('wind_speed', 'Wind Speed'),
+        ],
+        validators=[InputRequired()]
     )
